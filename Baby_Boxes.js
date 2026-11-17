@@ -84,6 +84,28 @@ var createScene = async function () {
    );
 
    /* ———————————————————
+      4.  Import Fender Stratocaster
+      ———————————————————— */
+    BABYLON.SceneLoader.ImportMesh("", "./", "fender_stratocaster.glb", scene,
+   function (meshes) {
+        const guitar = meshes[0];
+
+        // Position & scale
+        guitar.position.set(15, 2, 30);
+        guitar.scaling.setAll(5);        // make it bigger
+        guitar.isPickable = true;        // allow grabbing
+
+        /* DEBUG COLOR (uncomment if model still shows black)
+        const mat = new BABYLON.StandardMaterial("guitarMat", scene);
+        mat.diffuseColor = new BABYLON.Color3(0.8, 0.1, 0.1);
+        guitar.material = mat;
+         */
+
+        console.log("Heart loaded!");
+    }
+   );  
+
+   /* ———————————————————
    4.  WEB‑XR SETUP (unchanged)
     ———————————————————— */
     
