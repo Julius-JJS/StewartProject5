@@ -56,7 +56,7 @@ var createScene = async function () {
    box.material = matBox;
 
    const box2 = BABYLON.Mesh.CreateBox("box2", 16.0, scene);
-   box2.position.set(-20, 4, 0);
+   box2.position.set(-20, 3, 0);
    const matBox2 = new BABYLON.StandardMaterial("matBox2", scene);
    matBox2.diffuseColor = new BABYLON.Color3(0.1, 0.1, 1);
    box2.material = matBox2;
