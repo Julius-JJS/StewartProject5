@@ -48,18 +48,40 @@ var createScene = async function () {
    /* ———————————————————
    2.  DEMO BOXES (unchanged)
    ———————————————————— */
-   const box  = BABYLON.Mesh.CreateBox("box", 4.0, scene);
-   box.position.y = 2;
+   const box  = BABYLON.Mesh.CreateBox("box", 8.0, scene);
    box.isPickable = true;
+   box.position.set(-20, 16, 0);
    const matBox = new BABYLON.StandardMaterial("matBox", scene);
    matBox.diffuseColor = new BABYLON.Color3(1, 0.1, 0.1);
    box.material = matBox;
 
-   const box2 = BABYLON.Mesh.CreateBox("box2", 8.0, scene);
+   const box2 = BABYLON.Mesh.CreateBox("box2", 16.0, scene);
    box2.position.set(-20, 4, 0);
    const matBox2 = new BABYLON.StandardMaterial("matBox2", scene);
    matBox2.diffuseColor = new BABYLON.Color3(0.1, 0.1, 1);
    box2.material = matBox2;
+
+   const poly = BABYLON.MeshBuilder.CreatePolyhedron(
+		   "poly",
+		   { type: 1, size: 5 },
+		   scene
+		   );
+
+   // Create material
+   const polyMat = new BABYLON.StandardMaterial("polyMat", scene);
+
+   // Load Onyx texture
+   polyMat.diffuseTexture = new BABYLON.Texture(
+		   "./Onyx002_1K-JPG_Color.jpg",
+		   scene
+		   );
+
+   // Apply material
+   poly.material = polyMat;
+
+   // Position
+   poly.position.set(-50, 0, 0);
+   poly.scaling.setAll(5);        // make it bigger
 
    /* ———————————————————
    3.  IMPORT HEART MODEL
@@ -69,7 +91,7 @@ var createScene = async function () {
         const heart = meshes[0];
 
         // Position & scale
-        heart.position.set(15, 2, 30);
+        heart.position.set(-20, 28, 0);
         heart.scaling.setAll(5);        // make it bigger
         heart.isPickable = true;        // allow grabbing
 
@@ -84,26 +106,42 @@ var createScene = async function () {
    );
 
    /* ———————————————————
-      4.  Import Fender Stratocaster
-      ———————————————————— */
-    BABYLON.SceneLoader.ImportMesh("", "./", "fender_stratocaster.glb", scene,
+   3.  IMPORT GUITAR MODEL
+   ———————————————————— */
+   BABYLON.SceneLoader.ImportMesh("", "./", "fender_stratocaster.glb", scene,
    function (meshes) {
-        const guitar = meshes[0];
+	const guitarPivot = new BABYLON.TransformNode("guitarPivot", scene);
 
-        // Position & scale
-        guitar.position.set(15, 2, 30);
-        guitar.scaling.setAll(5);        // make it bigger
-        guitar.isPickable = true;        // allow grabbing
+	meshes.forEach(mesh => {
+			mesh.parent = guitarPivot;
+			});
 
-        /* DEBUG COLOR (uncomment if model still shows black)
-        const mat = new BABYLON.StandardMaterial("guitarMat", scene);
-        mat.diffuseColor = new BABYLON.Color3(0.8, 0.1, 0.1);
-        guitar.material = mat;
-         */
+	guitarPivot.position.set(-20, 0, 20);
+        guitarPivot.scaling.setAll(0.3);
+	guitarPivot.rotation.y = Math.PI / 2;
 
-        console.log("Heart loaded!");
+        console.log("Guitar loaded!");
     }
-   );  
+   );
+
+   /* ———————————————————
+   3.  IMPORT GUITAR MODEL
+   ———————————————————— */
+   BABYLON.SceneLoader.ImportMesh("", "./", "fender_stratocaster.glb", scene,
+   function (meshes) {
+	const guitarPivot = new BABYLON.TransformNode("guitarPivot", scene);
+
+	meshes.forEach(mesh => {
+			mesh.parent = guitarPivot;
+			});
+
+	guitarPivot.position.set(-20, 0, -20);
+        guitarPivot.scaling.setAll(0.3);
+	guitarPivot.rotation.y = Math.PI / 2;
+
+        console.log("Guitar loaded!");
+    }
+   );
 
    /* ———————————————————
    4.  WEB‑XR SETUP (unchanged)
